@@ -40,7 +40,7 @@ defmodule Riffed.Mixfile do
 
   defp deps do
     [
-        {:thrift, github: "pinterest/elixir-thrift", tag: "1.0.0", submodules: true},
+        {:thrift, github: "binaryseed/elixir-thrift", branch: "custom", submodules: true},
         {:meck, "~> 0.8.2", only: [:test, :dev]},
         {:mock, github: "jjh42/mock", only: [:test, :dev]},
         {:earmark, "~> 0.1", only: :dev},

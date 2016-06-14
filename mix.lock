@@ -9,5 +9,5 @@
   "meck": {:hex, :meck, "0.8.3", "4628a1334c69610c5bd558b04dc78d723d8ec5445c123856de34c77f462b5ee5", [:rebar], []},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], []},
   "mock": {:git, "https://github.com/jjh42/mock.git", "c2b7dc75bc219124f8b458b62cf9a65616907e04", []},
-  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"},
-  "thrift": {:git, "https://github.com/pinterest/elixir-thrift.git", "9c3871cc9568eaf23c701ae11dece7bb5790b8ab", [tag: "1.0.0", submodules: true]}}
+  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5", "2e73e068cd6393526f9fa6d399353d7c9477d6886ba005f323b592d389fb47be", [:make], []},
+  "thrift": {:git, "https://github.com/binaryseed/elixir-thrift.git", "b2e78effd62a4ceedbadfad7dbb33dfef45b2933", [branch: "custom", submodules: true]}}
