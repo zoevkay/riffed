@@ -210,7 +210,7 @@ defmodule Riffed.Client do
         catch
           exception_response = {_, {:exception, _}} -> exception_response
         rescue
-          error -> {client, {:error, {:internal_server_error, error}}}
+          error -> {client.client, {:error, {:internal_server_error, error}}}
         end
         new_client = %Client{client | client: thrift_client}
         case response do
