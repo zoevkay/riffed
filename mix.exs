@@ -6,7 +6,7 @@ defmodule Riffed.Mixfile do
      name: "Riffed",
      version: "1.0.0",
      elixir: "~> 1.0",
-     deps: deps,
+     deps: deps(),
      compilers: compilers(Mix.env),
      erlc_paths: ["src", "ext/thrift/lib/erl/src"],
      erlc_include_path: "ext/thrift/lib/erl/include",
@@ -16,10 +16,10 @@ defmodule Riffed.Mixfile do
      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test],
 
      # Hex
-     description: description,
-     package: package,
-     source_url: project_url,
-     homepage_url: project_url
+     description: description(),
+     package: package(),
+     source_url: project_url(),
+     homepage_url: project_url()
     ]
   end
 
@@ -65,7 +65,7 @@ defmodule Riffed.Mixfile do
     [files: ["config", "lib", "test", "thrift", "mix.exs", "README.md", "LICENSE"],
      maintainers: ["Jon Parise", "Steve Cohen"],
      licenses: ["Apache 2.0"],
-     links: %{"GitHub" => project_url}
+     links: %{"GitHub" => project_url()}
     ]
   end
 end
