@@ -233,8 +233,8 @@ defmodule Riffed.Client do
         end
       end
 
-      defp call_thrift(client, call_name, args, retry_count) do
-        {:error, :retries_exceeded}
+      defp call_thrift(client, _call_name, _args, _retry_count) do
+        {client, {:error, :retries_exceeded}}
       end
 
       defp connect do
