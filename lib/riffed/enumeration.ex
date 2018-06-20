@@ -41,7 +41,7 @@ defmodule Riffed.Enumeration do
 
   defmodule Output do
     @moduledoc false
-    defstruct conversion_fns: [], modules: [], fn_args_conversions: HashDict.new
+    defstruct conversion_fns: [], modules: [], fn_args_conversions: Map.new
   end
 
   defmodule ArgConversion do

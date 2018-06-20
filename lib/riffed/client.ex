@@ -207,10 +207,10 @@ defmodule Riffed.Client do
 
         {thrift_client, response} = try do
           :thrift_client.call(client.client, call_name, args)
-        catch
-          exception_response = {_, {:exception, _}} -> exception_response
         rescue
           error -> {client.client, {:error, {:internal_server_error, error}}}
+        catch
+          exception_response = {_, {:exception, _}} -> exception_response
         end
         new_client = %Client{client | client: thrift_client}
         case response do
@@ -269,7 +269,7 @@ defmodule Riffed.Client do
       end
 
       defp to_host(hostname) when is_bitstring(hostname) do
-        String.to_char_list(hostname)
+        String.to_charlist(hostname)
       end
     end
   end

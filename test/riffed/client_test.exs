@@ -108,7 +108,7 @@ defmodule ClientTest do
 
   test_with_mock "it should convert structs in dicts", :thrift_client,
   [call: respond_with(:dict.from_list([{"foobar", user_tuple}]))] do
-    dict_arg = Enum.into([{"foobar", user_struct}], HashDict.new)
+    dict_arg = Enum.into([{"foobar", user_struct}], Map.new)
 
     response = Client.dictUserFun(dict_arg)
 
@@ -119,7 +119,7 @@ defmodule ClientTest do
 
   test_with_mock "it should convert structs in sets", :thrift_client,
   [call: respond_with(:sets.from_list([user_tuple]))] do
-    set_arg = Enum.into([user_struct], HashSet.new)
+    set_arg = Enum.into([user_struct], MapSet.new)
 
     response = Client.setUserFun(set_arg)
 
@@ -197,14 +197,14 @@ defmodule ClientTest do
 
     response = Client.getAllStates()
     assert Enum.into([Models.ActivityState.banned,
-                      Models.ActivityState.inactive], HashSet.new) == response
+                      Models.ActivityState.inactive], MapSet.new) == response
   end
 
   test_with_mock "it should convert things in response data structures", :thrift_client,
   [call: respond_with({:ResponseWithMap, :dict.from_list([{1234, user_tuple}])})] do
 
     response = Client.getUsers(1234)
-    user_dict = Enum.into([{1234, user_struct}], HashDict.new)
+    user_dict = Enum.into([{1234, user_struct}], Map.new)
     assert Models.ResponseWithMap.new(users: user_dict) == response
   end
 

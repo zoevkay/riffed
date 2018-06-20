@@ -24,7 +24,7 @@ defmodule IntegrationTest do
     defmodule Handlers do
       def get_user_states(list_of_usernames) do
         list_of_usernames
-        |> Enum.into(HashDict.new,
+        |> Enum.into(Map.new,
             fn(name) ->
               {name, IntegServer.Models.ActivityState.active}
             end)

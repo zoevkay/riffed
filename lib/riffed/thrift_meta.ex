@@ -2,7 +2,7 @@ defmodule Riffed.ThriftMeta do
   @moduledoc false
   defmodule Meta do
     @moduledoc false
-    defstruct structs: [], meta_by_function: HashDict.new
+    defstruct structs: [], meta_by_function: Map.new
 
     def append_struct(meta=%Meta{}, struct) do
       %Meta{meta | structs: [struct | meta.structs]}
@@ -11,16 +11,16 @@ defmodule Riffed.ThriftMeta do
     def structs_to_keyword(meta=%Meta{}) do
       meta.structs
       |> Enum.uniq
-      |> Enum.reduce(HashDict.new,
+      |> Enum.reduce(Map.new,
           fn([:struct, {thrift_module, module_name}],  dict) ->
-            Dict.update(dict, thrift_module, [module_name], fn(l) -> [module_name | l]
+            Map.update(dict, thrift_module, [module_name], fn(l) -> [module_name | l]
                         end)
           end)
       |> Enum.into(Keyword.new)
     end
 
     def add_metadata_for_function(meta=%Meta{}, function_name, metadata) do
-      new_metadata = Dict.put(meta.meta_by_function, function_name, metadata)
+      new_metadata = Map.put(meta.meta_by_function, function_name, metadata)
 
       %Meta{meta | meta_by_function: new_metadata}
     end
