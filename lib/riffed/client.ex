@@ -269,7 +269,7 @@ defmodule Riffed.Client do
       end
 
       defp to_host(hostname) when is_bitstring(hostname) do
-        String.to_char_list(hostname)
+        String.to_charlist(hostname)
       end
     end
   end
