@@ -93,23 +93,23 @@ defmodule StructTest do
     assert [context[:tuple]] == actual
   end
 
-  test "a set of tuples should turn itself into a HashSet of tuples", context do
+  test "a set of tuples should turn itself into a MapSet of tuples", context do
     actual = :sets.from_list([context[:tuple]]) |> to_elixir({:set, {:struct, {:struct_types, :Inner}}})
-    assert Enum.into([context[:struct]], HashSet.new) == actual
+    assert Enum.into([context[:struct]], MapSet.new) == actual
   end
 
-  test "a HashSet of structs should turn itself into a set of tuples", context do
-    actual = Enum.into([context[:struct]], HashSet.new) |> to_erlang({:set, {:struct, {:struct_types, :Inner}}})
+  test "a MapSet of structs should turn itself into a set of tuples", context do
+    actual = Enum.into([context[:struct]], MapSet.new) |> to_erlang({:set, {:struct, {:struct_types, :Inner}}})
     assert :sets.from_list([context[:tuple]]) == actual
   end
 
-  test "a dict of tuples should turn itself into a HashDict of structs", context do
+  test "a dict of tuples should turn itself into a Map of structs", context do
     actual = :dict.from_list([{"foo", context[:tuple]}]) |> to_elixir({:map, {:string, {:struct, {:struct_types, :Inner}}}})
-    assert Enum.into([{"foo", context[:struct]}], HashDict.new) == actual
+    assert Enum.into([{"foo", context[:struct]}], Map.new) == actual
   end
 
-  test "a HashDict of structs should turn itself into a dict of tuples", context do
-    actual = Enum.into([{"foo", context[:struct]}], HashDict.new) |> to_erlang({:map, {:string, {:struct, {:struct_types, :Inner}}}})
+  test "a Map of structs should turn itself into a dict of tuples", context do
+    actual = Enum.into([{"foo", context[:struct]}], Map.new) |> to_erlang({:map, {:string, {:struct, {:struct_types, :Inner}}}})
     assert :dict.from_list([{"foo", context[:tuple]}]) == actual
   end
 
@@ -158,11 +158,11 @@ defmodule StructTest do
     container = {:SetContainer, :sets.from_list([1, 2])}
     elixir_struct = container |> to_elixir({:struct, {:struct_types, :SetContainer}})
 
-    assert Enum.into([Structs.Time.day, Structs.Time.week], HashSet.new) == elixir_struct.timeSet
+    assert Enum.into([Structs.Time.day, Structs.Time.week], MapSet.new) == elixir_struct.timeSet
   end
 
   test "Enums in sets in a struct can be converted to erlang" do
-    elixir = Structs.SetContainer.new(timeSet: Enum.into([Structs.Time.day], HashSet.new))
+    elixir = Structs.SetContainer.new(timeSet: Enum.into([Structs.Time.day], MapSet.new))
     erlang_tuple = to_erlang(elixir, {:struct, {:struct_types, :SetContainer}})
 
     assert {:SetContainer, :sets.from_list([1])} == erlang_tuple
@@ -172,11 +172,11 @@ defmodule StructTest do
     erlang_tuple = {:StringToEnumContainer, :dict.from_list([{"foo", 2}])}
     elixir_struct = erlang_tuple |> to_elixir({:struct, {:struct_types, :StringToEnumContainer}})
 
-    assert Enum.into([{"foo", Structs.Time.week}], HashDict.new) == elixir_struct.nameToTimePeriod
+    assert Enum.into([{"foo", Structs.Time.week}], Map.new) == elixir_struct.nameToTimePeriod
   end
 
   test "Enums in maps in a struct can be converted into erlang" do
-    elixir_struct = Structs.StringToEnumContainer.new(nameToTimePeriod: Enum.into([{"foo", Structs.Time.day}], HashDict.new))
+    elixir_struct = Structs.StringToEnumContainer.new(nameToTimePeriod: Enum.into([{"foo", Structs.Time.day}], Map.new))
     erlang_tuple = to_erlang(elixir_struct, {:struct, {:struct_types, :StringToEnumContainer}})
 
     assert {:StringToEnumContainer, :dict.from_list([{"foo", 1}])} == erlang_tuple
@@ -186,12 +186,12 @@ defmodule StructTest do
     erlang_tuple = {:IntToEnumContainer, :dict.from_list([{1, 2}])}
     elixir_struct = erlang_tuple |> to_elixir({:struct, {:struct_types, :IntToEnumContainer}})
 
-    assert Enum.into([{1, Structs.Time.week}], HashDict.new) == elixir_struct.intToTimePeriod
+    assert Enum.into([{1, Structs.Time.week}], Map.new) == elixir_struct.intToTimePeriod
   end
 
   test "enums can be converted from elixir when both the keys and values are ints" do
     elixir_struct = Structs.IntToEnumContainer.new(
-      intToTimePeriod: Enum.into([{1, Structs.Time.week}], HashDict.new))
+      intToTimePeriod: Enum.into([{1, Structs.Time.week}], Map.new))
 
 
     erlang_tuple = elixir_struct |> to_erlang({:struct, {:struct_types, :IntToEnumContainer}})
@@ -203,12 +203,12 @@ defmodule StructTest do
     erlang_tuple = {:EnumToStringContainer, :dict.from_list([{2, "week"}])}
 
     elixir_struct = to_elixir(erlang_tuple, {:struct, {:struct_types, :EnumToStringContainer}})
-    assert Enum.into([{Structs.Time.week, "week"}], HashDict.new) == elixir_struct.timePeriodToName
+    assert Enum.into([{Structs.Time.week, "week"}], Map.new) == elixir_struct.timePeriodToName
   end
 
   test "enums as keys can be converted into erlang" do
     elixir_struct = Structs.EnumToStringContainer.new(
-      timePeriodToName: Enum.into([{Structs.Time.day, "day"}], HashDict.new))
+      timePeriodToName: Enum.into([{Structs.Time.day, "day"}], Map.new))
 
     erlang_tuple = to_erlang(elixir_struct, nil)
     assert {:EnumToStringContainer, :dict.from_list([{1, "day"}])} == erlang_tuple
@@ -246,11 +246,11 @@ defmodule StructTest do
     elixir_struct = to_elixir(erlang_tuple, {:struct, {:struct_types, :ListWithMap}})
 
     [[map]] = elixir_struct.bonanza
-    assert Enum.into([{Structs.Time.week, "week"}], HashDict.new) == map
+    assert Enum.into([{Structs.Time.week, "week"}], Map.new) == map
   end
 
   test "a really crazy elixir structure can be turned into erlang" do
-    dict = Enum.into([{Structs.Time.month, "month"}], HashDict.new)
+    dict = Enum.into([{Structs.Time.month, "month"}], Map.new)
     elixir_struct = Structs.ListWithMap.new(bonanza: [[dict]])
 
     erlang_tuple = to_erlang(elixir_struct, nil)
@@ -289,7 +289,7 @@ defmodule StructTest do
 
   test "default sets of strings should be set properly in elixir" do
     struct = Structs.DefaultSetStrings.new
-    assert struct.values == Enum.into(["hello", "world"], HashSet.new)
+    assert struct.values == Enum.into(["hello", "world"], MapSet.new)
   end
 
   test "default maps should be set properly in elixir" do

@@ -84,7 +84,7 @@ defmodule Riffed.Callbacks do
       def to_elixir(to_convert, {:map, {key_type, val_type}}) when is_tuple(to_convert) do
         to_convert
         |> :dict.to_list
-        |> Enum.into(HashDict.new,
+        |> Enum.into(Map.new,
                      fn({k, v}) ->
                        {to_elixir(k, key_type),
                         to_elixir(v, val_type)}
@@ -94,7 +94,7 @@ defmodule Riffed.Callbacks do
       def to_elixir(to_convert, {:set, item_type}) when is_tuple(to_convert) do
         to_convert
         |> :sets.to_list
-        |> Enum.into(HashSet.new, &(to_elixir(&1, item_type)))
+        |> Enum.into(MapSet.new, &(to_elixir(&1, item_type)))
       end
 
       def to_elixir(to_convert, {:list, item_type}) when is_list(to_convert) do

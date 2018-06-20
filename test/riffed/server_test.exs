@@ -174,11 +174,11 @@ defmodule ServerTest do
                               per: 1)
     end
 
-    def dict_fun(dict=%HashDict{}) do
+    def dict_fun(dict=%{}) do
       FakeHandler.set_args(dict)
     end
 
-    def set_fun(hash_set=%HashSet{}) do
+    def set_fun(hash_set=%MapSet{}) do
       FakeHandler.set_args(hash_set)
     end
 
@@ -206,20 +206,20 @@ defmodule ServerTest do
 
     def get_user_states(usernames) do
       FakeHandler.set_args(usernames)
-      Enum.into(usernames, HashDict.new, fn(name) -> {name, Data.ActivityState.active} end)
+      Enum.into(usernames, Map.new, fn(name) -> {name, Data.ActivityState.active} end)
     end
 
     def get_users(_user_ids) do
       users = Enum.into([{12345, Data.User.new(firstName: "Stinky",
                                                lastName: "Stinkman",
                                                state: Data.ActivityState.active)}],
-                        HashDict.new)
+                        Map.new)
       Data.ResponseWithMap.new(users: users)
     end
 
     def get_all_states do
       [Data.ActivityState.active, Data.ActivityState.inactive, Data.ActivityState.banned]
-      |> Enum.into(HashSet.new)
+      |> Enum.into(MapSet.new)
     end
 
     def echo_activity_state_list(states) do
@@ -236,7 +236,7 @@ defmodule ServerTest do
                              title: "My Sweet Board",
                              pinIds: [1, 2, 3, 4, 5])
       Enum.into([{board_id, Data.UserBoardResponse.new(user: user, board: board)}],
-                HashDict.new)
+                Map.new)
     end
 
     def get_map_response do
@@ -359,7 +359,7 @@ defmodule ServerTest do
 
     set_arg = FakeHandler.args
 
-    assert HashSet.to_list(set_arg) == [user]
+    assert MapSet.to_list(set_arg) == [user]
     assert :sets.from_list([{:User, "Steve", "Cohen", 1}]) == response
   end
 
@@ -371,7 +371,7 @@ defmodule ServerTest do
     {:reply, response} = Server.handle_function(:setFun, {param})
 
     set_arg = FakeHandler.args
-    assert Set.equal? Enum.into(["hi", "there", "guys"], HashSet.new), set_arg
+    assert Set.equal? Enum.into(["hi", "there", "guys"], MapSet.new), set_arg
     assert :sets.from_list(set_data) == response
   end
 

@@ -116,7 +116,7 @@ defmodule Riffed.Struct do
     default_set = default
       |> :sets.to_list
       |> Enum.map(&build_struct_defaults({field_idx, required, type, name, &1}))
-      |> Enum.into(HashSet.new, fn {_, val} -> val end)
+      |> Enum.into(MapSet.new, fn {_, val} -> val end)
     {name, Macro.escape(default_set)}
   end
 
