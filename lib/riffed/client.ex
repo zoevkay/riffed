@@ -228,7 +228,8 @@ defmodule Riffed.Client do
             {new_client, exception}
           {:ok, rsp} ->
             {new_client, rsp}
-          other = {other, rsp} ->
+
+          other = {_, _} ->
             {new_client, other}
         end
       end
